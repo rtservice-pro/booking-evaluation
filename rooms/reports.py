@@ -1,8 +1,5 @@
-"""TODO 3 — Export a city catalogue summary as a JSON string."""
-import json
 import json
 from rooms.models import Location, Room
-
 
 def export_city_summary(city: str) -> str:
     if not isinstance(city, str) or not city.strip():
