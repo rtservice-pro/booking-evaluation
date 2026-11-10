@@ -4,12 +4,19 @@ from rest_framework.exceptions import ValidationError
 from rooms.models import Room
 from rooms.serializers import RoomSerializer
 
+
 class RoomListView(generics.ListAPIView):
     serializer_class = RoomSerializer
-    queryset = Room.objects.none()  # TODO: replace with the actual catalogue
+    queryset = Room.objects.all()
 
     def get_queryset(self):
-        # TODO 2 (6 points): order by code, optionally filter city.
-        # Trim/ignore case; blank supplied city -> HTTP 400.
-        # Do not expose write methods.
-        return super().get_queryset()
+        rooms = Room.objects.all().order_by("code")
+        city = self.request.query_params.get("city")
+
+        if city is not None:
+            city = city.strip()
+            if not city:
+                raise ValidationError({"city": "Ce champ ne peut pas être vide."})
+            rooms = rooms.filter(location__city__iexact=city)
+
+        return rooms
