@@ -8,15 +8,15 @@
 <body>
     <main>
         <h1>Room catalogue</h1>
-        <<ul>
-    {% for room in rooms %}
-        <li>
-            {{ room.code }} — {{ room.name }} — {{ room.capacity }} places — {{ room.location.city }}
-        </li>
-    {% empty %}
-        <li>Aucune salle disponible.</li>
-    {% endfor %}
-</ul>>
+        <ul>
+            {% for room in rooms %}
+                <li>
+                    {{ room.code }} — {{ room.name }} — {{ room.capacity }} seats — {{ room.location.city }}
+                </li>
+            {% empty %}
+                <li>No rooms available.</li>
+            {% endfor %}
+        </ul>
     </main>
 </body>
 </html>
