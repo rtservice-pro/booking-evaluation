@@ -1,16 +1,14 @@
-"""TODO 2 — Read-only rooms endpoint with an optional city filter."""
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 from rooms.models import Room
 from rooms.serializers import RoomSerializer
 
-
 class RoomListView(generics.ListAPIView):
     serializer_class = RoomSerializer
-    queryset = Room.objects.all()
+    queryset = Room.objects.select_related("location").all()
 
     def get_queryset(self):
-        rooms = Room.objects.all().order_by("code")
+        rooms = Room.objects.select_related("location").order_by("code")
         city = self.request.query_params.get("city")
 
         if city is not None:
